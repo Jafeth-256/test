@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import '../styles/custom.css';
+import useReports from '../hooks/useReports';
 
 const Productos = () => {
+  const { generateProductReport, isGenerating } = useReports();
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -48,6 +50,10 @@ const Productos = () => {
     producto.categoria.toLowerCase().includes(searchTerm.toLowerCase()) ||
     producto.unidad_medida.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleGenerateReport = () => {
+    generateProductReport(filteredProductos);
+  };
 
   // Paginación
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -177,9 +183,22 @@ const Productos = () => {
                     </p>
                   </div>
                   <div className="d-flex gap-2">
-                    <button className="btn btn-outline-primary-green">
-                      <i className="fas fa-download me-1"></i>
-                      Exportar
+                    <button
+                      className="btn btn-outline-primary-green"
+                      onClick={handleGenerateReport}
+                      disabled={isGenerating}
+                    >
+                      {isGenerating ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                          Generando...
+                        </>
+                      ) : (
+                        <>
+                          <i className="fas fa-download me-1"></i>
+                          Exportar
+                        </>
+                      )}
                     </button>
                     <button 
                       className="btn btn-primary-purple"

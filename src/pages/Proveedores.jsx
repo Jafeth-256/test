@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import '../styles/custom.css';
+import useReports from '../hooks/useReports';
 
 const Proveedores = () => {
+  const { generateSupplierReport, isGenerating } = useReports();
   const [proveedores, setProveedores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -52,6 +54,10 @@ const Proveedores = () => {
     (proveedor.ciudad && proveedor.ciudad.toLowerCase().includes(searchTerm.toLowerCase())) ||
     proveedor.tipo_proveedor.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleGenerateReport = () => {
+    generateSupplierReport(filteredProveedores);
+  };
 
   // Paginación
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -187,9 +193,22 @@ const Proveedores = () => {
                     </p>
                   </div>
                   <div className="d-flex gap-2">
-                    <button className="btn btn-outline-primary-green">
-                      <i className="fas fa-download me-1"></i>
-                      Exportar
+                    <button
+                      className="btn btn-outline-primary-green"
+                      onClick={handleGenerateReport}
+                      disabled={isGenerating}
+                    >
+                      {isGenerating ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                          Generando...
+                        </>
+                      ) : (
+                        <>
+                          <i className="fas fa-download me-1"></i>
+                          Exportar
+                        </>
+                      )}
                     </button>
                     <button 
                       className="btn btn-primary-purple"

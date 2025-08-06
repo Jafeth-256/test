@@ -307,6 +307,218 @@ class ReportService {
   return this.doc;
 }
 
+generateInventoryReport(inventory, filters = {}) {
+    this.initDocument();
+
+    // Header
+    this.addHeader('REPORTE DE INVENTARIO', 'Estado actual del inventario', filters);
+
+    // Verify if there is inventory
+    if (!inventory || inventory.length === 0) {
+      this.doc.setFontSize(12);
+      this.doc.setTextColor(this.colors.secondary);
+      this.doc.text('No se encontraron registros de inventario.', 20, this.currentY);
+      this.addFooter();
+      return this.doc;
+    }
+
+    // Inventory table
+    this.doc.setFontSize(14);
+    this.doc.setFont('helvetica', 'bold');
+    this.doc.setTextColor(this.colors.dark);
+    this.doc.text('Detalle de Inventario', 20, this.currentY);
+    this.currentY += 8;
+
+    const tableData = inventory.map(i => [
+      i.nombre_producto,
+      i.categoria,
+      i.stock_actual,
+      i.stock_minimo,
+      this.formatCurrency(i.precio_unitario),
+      this.formatDate(i.fecha_ingreso),
+      i.fecha_vencimiento ? this.formatDate(i.fecha_vencimiento) : 'N/A',
+      this.capitalizeFirst(i.estado)
+    ]);
+
+    autoTable(this.doc, {
+      head: [['Producto', 'Categoría', 'Stock Actual', 'Stock Mínimo', 'Precio Unitario', 'Fecha Ingreso', 'Fecha Venc.', 'Estado']],
+      body: tableData,
+      startY: this.currentY,
+      theme: 'striped',
+      headStyles: {
+        fillColor: [46, 125, 50],
+        textColor: 255,
+        fontStyle: 'bold',
+        fontSize: 9
+      },
+      bodyStyles: {
+        fontSize: 8,
+        textColor: [33, 37, 41]
+      },
+      styles: {
+        overflow: 'linebreak',
+        cellPadding: 2
+      },
+      columnStyles: {
+        0: { cellWidth: 'auto' },
+        1: { cellWidth: 'auto' },
+        2: { halign: 'right' },
+        3: { halign: 'right' },
+        4: { halign: 'right' },
+        5: { cellWidth: 'wrap' },
+        6: { cellWidth: 'wrap' },
+        7: { halign: 'center' }
+      },
+      margin: { left: 20, right: 20 },
+      alternateRowStyles: {
+        fillColor: [248, 249, 250]
+      }
+    });
+
+    this.addFooter();
+    return this.doc;
+  }
+
+  generateProductReport(products, filters = {}) {
+    this.initDocument();
+
+    // Header
+    this.addHeader('REPORTE DE PRODUCTOS', 'Listado de productos registrados', filters);
+
+    // Verify if there are products
+    if (!products || products.length === 0) {
+      this.doc.setFontSize(12);
+      this.doc.setTextColor(this.colors.secondary);
+      this.doc.text('No se encontraron registros de productos.', 20, this.currentY);
+      this.addFooter();
+      return this.doc;
+    }
+
+    // Products table
+    this.doc.setFontSize(14);
+    this.doc.setFont('helvetica', 'bold');
+    this.doc.setTextColor(this.colors.dark);
+    this.doc.text('Detalle de Productos', 20, this.currentY);
+    this.currentY += 8;
+
+    const tableData = products.map(p => [
+      p.nombre,
+      p.categoria,
+      p.unidad_medida,
+      p.descripcion,
+      this.capitalizeFirst(p.estado),
+      this.formatDate(p.fecha_registro)
+    ]);
+
+    autoTable(this.doc, {
+      head: [['Nombre', 'Categoría', 'Unidad', 'Descripción', 'Estado', 'Fecha Registro']],
+      body: tableData,
+      startY: this.currentY,
+      theme: 'striped',
+      headStyles: {
+        fillColor: [46, 125, 50],
+        textColor: 255,
+        fontStyle: 'bold',
+        fontSize: 9
+      },
+      bodyStyles: {
+        fontSize: 8,
+        textColor: [33, 37, 41]
+      },
+      styles: {
+        overflow: 'linebreak',
+        cellPadding: 2
+      },
+      columnStyles: {
+        0: { cellWidth: 'auto' },
+        1: { cellWidth: 'auto' },
+        2: { cellWidth: 'auto' },
+        3: { cellWidth: 'wrap' },
+        4: { halign: 'center' },
+        5: { cellWidth: 'wrap' }
+      },
+      margin: { left: 20, right: 20 },
+      alternateRowStyles: {
+        fillColor: [248, 249, 250]
+      }
+    });
+
+    this.addFooter();
+    return this.doc;
+  }
+
+  generateSupplierReport(suppliers, filters = {}) {
+    this.initDocument();
+
+    // Header
+    this.addHeader('REPORTE DE PROVEEDORES', 'Listado de proveedores registrados', filters);
+
+    // Verify if there are suppliers
+    if (!suppliers || suppliers.length === 0) {
+      this.doc.setFontSize(12);
+      this.doc.setTextColor(this.colors.secondary);
+      this.doc.text('No se encontraron registros de proveedores.', 20, this.currentY);
+      this.addFooter();
+      return this.doc;
+    }
+
+    // Suppliers table
+    this.doc.setFontSize(14);
+    this.doc.setFont('helvetica', 'bold');
+    this.doc.setTextColor(this.colors.dark);
+    this.doc.text('Detalle de Proveedores', 20, this.currentY);
+    this.currentY += 8;
+
+    const tableData = suppliers.map(s => [
+      s.nombre,
+      s.empresa,
+      s.telefono,
+      s.email,
+      s.direccion,
+      s.ciudad,
+      s.tipo_proveedor,
+      this.capitalizeFirst(s.estado)
+    ]);
+
+    autoTable(this.doc, {
+      head: [['Nombre', 'Empresa', 'Teléfono', 'Email', 'Dirección', 'Ciudad', 'Tipo', 'Estado']],
+      body: tableData,
+      startY: this.currentY,
+      theme: 'striped',
+      headStyles: {
+        fillColor: [46, 125, 50],
+        textColor: 255,
+        fontStyle: 'bold',
+        fontSize: 9
+      },
+      bodyStyles: {
+        fontSize: 8,
+        textColor: [33, 37, 41]
+      },
+      styles: {
+        overflow: 'linebreak',
+        cellPadding: 2
+      },
+      columnStyles: {
+        0: { cellWidth: 'auto' },
+        1: { cellWidth: 'auto' },
+        2: { cellWidth: 'auto' },
+        3: { cellWidth: 'wrap' },
+        4: { cellWidth: 'wrap' },
+        5: { cellWidth: 'auto' },
+        6: { cellWidth: 'auto' },
+        7: { halign: 'center' }
+      },
+      margin: { left: 20, right: 20 },
+      alternateRowStyles: {
+        fillColor: [248, 249, 250]
+      }
+    });
+
+    this.addFooter();
+    return this.doc;
+  }
+
 }
 
 export default ReportService;
