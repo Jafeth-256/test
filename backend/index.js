@@ -15,7 +15,7 @@ app.use(express.json());
 const dbConfig = {
   host: 'localhost',
   user: 'root',
-  password: '88419550',
+  password: 'admin',
   database: 'reportato'
 };
 
@@ -570,7 +570,12 @@ app.delete('/inventario/:id', async (req, res) => {
 // Rutas para proveedores
 app.get('/proveedores', async (req, res) => {
   try {
-    const query = 'SELECT * FROM PROVEEDORES ORDER BY fecha_registro DESC';
+    const query = `
+      SELECT p.*, pr.nombre as nombre_producto 
+      FROM PROVEEDORES p
+      LEFT JOIN PRODUCTOS pr ON p.producto_id = pr.id
+      ORDER BY p.fecha_registro DESC
+    `;
     const [rows] = await db.execute(query);
     res.json(rows);
   } catch (error) {
@@ -598,7 +603,7 @@ app.get('/proveedores/:id', async (req, res) => {
 
 app.post('/proveedores', async (req, res) => {
   try {
-    const { nombre, empresa, telefono, email, direccion, ciudad, tipo_proveedor, estado } = req.body;
+    const { nombre, empresa, telefono, email, direccion, ciudad, tipo_proveedor, estado, producto_id } = req.body;
 
     if (!nombre) {
       return res.status(400).json({ error: 'El nombre es requerido' });
@@ -606,8 +611,8 @@ app.post('/proveedores', async (req, res) => {
 
     const query = `
       INSERT INTO PROVEEDORES 
-      (nombre, empresa, telefono, email, direccion, ciudad, tipo_proveedor, estado) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      (nombre, empresa, telefono, email, direccion, ciudad, tipo_proveedor, estado, producto_id) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const [result] = await db.execute(query, [
@@ -618,7 +623,8 @@ app.post('/proveedores', async (req, res) => {
       direccion || null,
       ciudad || null,
       tipo_proveedor || 'Mayorista',
-      estado || 'Activo'
+      estado || 'Activo',
+      producto_id || null
     ]);
 
     res.status(201).json({
@@ -634,7 +640,7 @@ app.post('/proveedores', async (req, res) => {
 app.put('/proveedores/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, empresa, telefono, email, direccion, ciudad, tipo_proveedor, estado } = req.body;
+    const { nombre, empresa, telefono, email, direccion, ciudad, tipo_proveedor, estado, producto_id } = req.body;
 
     if (!nombre) {
       return res.status(400).json({ error: 'El nombre es requerido' });
@@ -643,7 +649,7 @@ app.put('/proveedores/:id', async (req, res) => {
     const query = `
       UPDATE PROVEEDORES 
       SET nombre = ?, empresa = ?, telefono = ?, email = ?, 
-          direccion = ?, ciudad = ?, tipo_proveedor = ?, estado = ?
+          direccion = ?, ciudad = ?, tipo_proveedor = ?, estado = ?, producto_id = ?
       WHERE id = ?
     `;
 
@@ -656,6 +662,7 @@ app.put('/proveedores/:id', async (req, res) => {
       ciudad || null,
       tipo_proveedor || 'Mayorista',
       estado || 'Activo',
+      producto_id || null,
       id
     ]);
 

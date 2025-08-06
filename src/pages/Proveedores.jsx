@@ -7,6 +7,7 @@ import useReports from '../hooks/useReports';
 const Proveedores = () => {
   const { generateSupplierReport, isGenerating } = useReports();
   const [proveedores, setProveedores] = useState([]);
+  const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingProveedor, setEditingProveedor] = useState(null);
@@ -22,12 +23,14 @@ const Proveedores = () => {
     direccion: '',
     ciudad: '',
     tipo_proveedor: 'Mayorista',
-    estado: 'Activo'
+    estado: 'Activo',
+    producto_id: ''
   });
 
-  // Cargar proveedores desde la API
+  // Cargar proveedores y productos desde la API
   useEffect(() => {
     fetchProveedores();
+    fetchProductos();
   }, []);
 
   const fetchProveedores = async () => {
@@ -47,11 +50,26 @@ const Proveedores = () => {
     }
   };
 
+  const fetchProductos = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/productos/activos');
+      if (response.ok) {
+        const data = await response.json();
+        setProductos(data);
+      } else {
+        console.error('Error al obtener productos');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   // Filtrar proveedores por búsqueda
   const filteredProveedores = proveedores.filter(proveedor =>
     proveedor.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (proveedor.empresa && proveedor.empresa.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (proveedor.ciudad && proveedor.ciudad.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (proveedor.nombre_producto && proveedor.nombre_producto.toLowerCase().includes(searchTerm.toLowerCase())) ||
     proveedor.tipo_proveedor.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -111,7 +129,8 @@ const Proveedores = () => {
       direccion: '',
       ciudad: '',
       tipo_proveedor: 'Mayorista',
-      estado: 'Activo'
+      estado: 'Activo',
+      producto_id: ''
     });
     setEditingProveedor(null);
     setShowModal(false);
@@ -127,7 +146,8 @@ const Proveedores = () => {
       direccion: proveedor.direccion || '',
       ciudad: proveedor.ciudad || '',
       tipo_proveedor: proveedor.tipo_proveedor,
-      estado: proveedor.estado
+      estado: proveedor.estado,
+      producto_id: proveedor.producto_id || ''
     });
     setShowModal(true);
   };
@@ -330,6 +350,7 @@ const Proveedores = () => {
                       <tr>
                         <th className="border-0 px-4 py-3">Proveedor</th>
                         <th className="border-0 px-4 py-3">Contacto</th>
+                        <th className="border-0 px-4 py-3">Producto Principal</th>
                         <th className="border-0 px-4 py-3">Tipo</th>
                         <th className="border-0 px-4 py-3">Ubicación</th>
                         <th className="border-0 px-4 py-3">Registro</th>
@@ -351,6 +372,9 @@ const Proveedores = () => {
                               <div className="small">{proveedor.telefono}</div>
                               <div className="small text-muted">{proveedor.email}</div>
                             </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="text-muted">{proveedor.nombre_producto || 'N/A'}</span>
                           </td>
                           <td className="px-4 py-3">
                             <span className="badge bg-light text-dark">
@@ -535,6 +559,22 @@ const Proveedores = () => {
                       >
                         <option value="Activo">Activo</option>
                         <option value="Inactivo">Inactivo</option>
+                      </select>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label">Producto Principal</label>
+                      <select
+                        className="form-select"
+                        name="producto_id"
+                        value={formData.producto_id}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Seleccionar producto</option>
+                        {productos.map(producto => (
+                          <option key={producto.id} value={producto.id}>
+                            {producto.nombre}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <div className="col-12 mb-3">
