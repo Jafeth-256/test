@@ -6,6 +6,7 @@ import '../styles/custom.css';
 const Compras = () => {
     const [compras, setCompras] = useState([]);
     const [productos, setProductos] = useState([]);
+    const [proveedores, setProveedores] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [editingCompra, setEditingCompra] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -26,6 +27,7 @@ const Compras = () => {
     useEffect(() => {
           fetchCompras();
           fetchProductos();
+          fetchProveedores();
         }, []);
       
     const fetchCompras = async () => {
@@ -59,15 +61,34 @@ const Compras = () => {
       }
     };
 
+    const fetchProveedores = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/proveedores');
+            if (response.ok) {
+              const data = await response.json();
+              setProveedores(data);
+            } else {
+              console.error('Error al obtener proveedores');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+    };
+
+    const getProveedorNombre = (proveedor_id) => {
+        const proveedor = proveedores.find(p => p.id === parseInt(proveedor_id));
+        return proveedor ? proveedor.nombre : '';
+    };
+
     // Filtrar compras por búsqueda
-    const filteredCompras = compras.filter(compras =>
-        compras.proveedor === searchTerm
-      );
+    const filteredCompras = compras.filter(compra =>
+        getProveedorNombre(compra.proveedor_id).toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     // Paginación
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentCompras = compras //filteredCompras.slice(indexOfFirstItem, indexOfLastItem);
+    const currentCompras = filteredCompras.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(filteredCompras.length / itemsPerPage);
     
     const getProductoNombre = (producto_id) => {
@@ -143,12 +164,12 @@ const Compras = () => {
     const handleEdit = (item) => {
         setEditingCompra(item);
         setFormData({
-        usuario: item.usuario,
-        proveedor: item.proveedor,
-        fecha: item.fecha,
-        producto: item.producto,
-        precio: item.precio,
-        cantidad: item.cantidad,
+        usuario: item.usuario_id,
+        proveedor: item.proveedor_id,
+        fecha: new Date(item.fecha_realizada).toISOString().split('T')[0],
+        producto: item.producto_id,
+        precio: item.precio_unitario,
+        cantidad: item.cantidad_producto,
         total: item.total
         });
         setShowModal(true);
@@ -262,7 +283,7 @@ const Compras = () => {
                   <table className="table table-hover align-middle mb-0">
                     <thead className="bg-light">
                       <tr>
-                        <th className="border-0 px-4 py-3">Usuario</th>
+                        <th className="border-0 px-4 py-3"></th>
                         <th className="border-0 px-4 py-3">Proveedor</th>
                         <th className="border-0 px-4 py-3">Producto</th>
                         <th className="border-0 px-4 py-3">Precio Unitario</th>
@@ -280,21 +301,21 @@ const Compras = () => {
                           </td>
                           <td className="px-4 py-3">
                             <div>
-                              <div className="small text-dark">{item.proveedor}</div>
+                              <div className="small text-dark">{getProveedorNombre(item.proveedor_id)}</div>
                             </div>
                           </td> 
                           <td className="px-4 py-3">
                             <div>
-                              <div className="small text-dark">{getProductoNombre(item.producto)}</div>
+                              <div className="small text-dark">{getProductoNombre(item.producto_id)}</div>
                             </div>
                           </td>
                           <td className="px-4 py-3">
                             <div>
-                              <div className="small text-dark">{item.precio}</div>
+                              <div className="small text-dark">{item.precio_unitario}</div>
                             </div>
                           </td>
                           <td className="px-4 py-3">
-                            <div className="fw-medium text-dark">{item.cantidad}</div>
+                            <div className="fw-medium text-dark">{item.cantidad_producto}</div>
                           </td>
                           <td className="px-4 py-3">
                             <div>
@@ -399,15 +420,21 @@ const Compras = () => {
                         />
                         </div>
                         <div className="col-md-6 mb-3">
-                        <label className="form-label">Ingrese el numero de proveedor *</label>
-                        <input
-                            type="number"
-                            className="form-control"
+                        <label className="form-label">Proveedor *</label>
+                        <select
+                            className="form-select"
                             name="proveedor"
                             value={formData.proveedor}
                             onChange={handleInputChange}
                             required
-                        />
+                        >
+                            <option value="">Seleccione un proveedor</option>
+                            {proveedores.map(proveedor => (
+                                <option key={proveedor.id} value={proveedor.id}>
+                                    {proveedor.nombre}
+                                </option>
+                            ))}
+                        </select>
                         </div>
                         <div className="col-12 mb-3">
                         <label className="form-label">Fecha de la compra *</label>
@@ -421,15 +448,21 @@ const Compras = () => {
                         />
                         </div>
                         <div className="col-md-6 mb-3">
-                        <label className="form-label">Ingrese el numero del producto *</label>
-                        <input
-                            type="number"
-                            className="form-control"
+                        <label className="form-label">Producto *</label>
+                        <select
+                            className="form-select"
                             name="producto"
                             value={formData.producto}
                             onChange={handleInputChange}
                             required
-                        />
+                        >
+                            <option value="">Seleccione un producto</option>
+                            {productos.map(producto => (
+                                <option key={producto.id} value={producto.id}>
+                                    {producto.nombre}
+                                </option>
+                            ))}
+                        </select>
                         </div>
                         <div className="col-md-6 mb-3">
                         <label className="form-label">Ingrese la cantidad adquirida *</label>

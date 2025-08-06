@@ -198,8 +198,3 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES USUARIOS(id) ON DELETE CASCADE
 );
-
-
-
-INSERT INTO usuarios (nombre, correo, rol, contrasena)
-VALUES ('AdminTest', 'adminstest@correo.com', 'Administrador', '$2b$10$2y1wV1CtktKUgSf/vmGvzO49TbOPLTESMf9JFpmi3gpjIbIja3aA.');

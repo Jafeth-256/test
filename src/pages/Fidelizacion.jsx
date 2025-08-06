@@ -61,7 +61,14 @@ const Fidelizacion = () => {
   };
 
  const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+
+    const dataToSend = {
+        ...formData,
+        fecha_Afiliacion: formData.fechaRegistro,
+    };
+    delete dataToSend.fechaRegistro;
+
 
   try {
       const url = editingFidelizacion 
@@ -75,7 +82,7 @@ const Fidelizacion = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToSend),
       });
 
       if (response.ok) {
@@ -105,7 +112,7 @@ const Fidelizacion = () => {
     setFormData({
       id: fidelizacion.id,
       cliente: fidelizacion.cliente,
-      fechaRegistro: fidelizacion.fechaRegistro,
+      fechaRegistro: new Date(fidelizacion.fecha_afiliacion).toISOString().split('T')[0],
       categoria: fidelizacion.categoria
     });
     setShowModal(true);
@@ -130,13 +137,18 @@ const Fidelizacion = () => {
   };
 
   const handleChangeStatus = async (id, newStatus) => {
+    const itemToUpdate = fidelizacion.find(item => item.id === id);
+    if (!itemToUpdate) return;
+
+    const updatedItem = { ...itemToUpdate, categoria: newStatus };
+
     try {
-      const response = await fetch(`http://localhost:3001/fidelizacion/${id}/categoria`, {
-        method: 'PATCH',
+      const response = await fetch(`http://localhost:3001/fidelizacion/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ categoria: newStatus }),
+        body: JSON.stringify(updatedItem),
       });
 
       if (response.ok) {
@@ -151,16 +163,17 @@ const Fidelizacion = () => {
 
 //Verificar la informacion que esta trayendo de BD 
 
- /*const formatDate = (dateString) => {
-    console.log(dateString)
-    dateString = '2024-08-15';
-    const [year, month, day] = dateString.split('-');
+ const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
 
   const formatDateForInput = (dateString) => {
     return new Date(dateString).toISOString().split('T')[0];
-  }; */
+  };
 
   const getStatusBadgeClass = (categoria) => {
     switch (categoria.toLowerCase()) {
@@ -276,7 +289,7 @@ const Fidelizacion = () => {
                           </td>
                           <td className="px-4 py-3">
                             <span className="small text-muted">
-                              {item.fechaRegistro}
+                              {formatDate(item.fecha_afiliacion)}
                             </span>
                           </td>
                           <td className="px-4 py-3">
