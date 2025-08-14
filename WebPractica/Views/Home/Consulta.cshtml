@@ -1,0 +1,49 @@
+@model IEnumerable<WebPractica.Models.PrincipalViewModel>
+
+@{
+    ViewData["Title"] = "Consulta de Productos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID Compra</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Saldo</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id_Compra</td>
+                    <td>@item.Descripcion</td>
+                    <td>@item.Precio.ToString("C")</td>
+                    <td>@item.Saldo.ToString("C")</td>
+                    <td>
+                        @if (item.Estado == "Pendiente")
+                        {
+                            <span class="badge badge-warning">@item.Estado</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-success">@item.Estado</span>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No hay productos para mostrar.</td>
+            </tr>
+        }
+    </tbody>
+</table>
