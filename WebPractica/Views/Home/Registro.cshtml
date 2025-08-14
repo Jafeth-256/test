@@ -1,0 +1,83 @@
+@model WebPractica.Models.AbonoViewModel
+@inject IConfiguration Configuration
+
+@{
+    ViewData["Title"] = "Registro de Abono";
+    var comprasPendientes = ViewBag.ComprasPendientes as List<CompraPendienteViewModel> ?? new List<CompraPendienteViewModel>();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Registro" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Id_Compra" class="control-label"></label>
+                <select asp-for="Id_Compra" class="form-control"
+                        asp-items="@(new SelectList(comprasPendientes, "Id_Compra", "Descripcion"))">
+                    <option value="">-- Seleccione una Compra --</option>
+                </select>
+                <span asp-validation-for="Id_Compra" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Saldo_Anterior" class="control-label"></label>
+                <input asp-for="Saldo_Anterior" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Monto" class="control-label"></label>
+                <input asp-for="Monto" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Abonar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Id_Compra').change(function () {
+                var idCompra = $(this).val();
+                if (idCompra) {
+                    // Fetch saldo from API
+                    $.ajax({
+                        url: '@(Configuration.GetSection("ApiSettings")["BaseUrl"])compras/' + idCompra + '/saldo',
+                        type: 'GET',
+                        success: function (data) {
+                            $('#Saldo_Anterior').val(data.saldo);
+                        },
+                        error: function () {
+                            alert('Error al obtener el saldo.');
+                            $('#Saldo_Anterior').val('');
+                        }
+                    });
+                } else {
+                    $('#Saldo_Anterior').val('');
+                }
+            });
+
+            $('form').submit(function (e) {
+                var saldo = parseFloat($('#Saldo_Anterior').val());
+                var abono = parseFloat($('#Monto').val());
+
+                if (abono > saldo) {
+                    // Add a validation message for Monto field
+                    var validationSpan = $('span[data-valmsg-for="Monto"]');
+                    validationSpan.text('El abono no puede ser mayor al saldo anterior.');
+                    validationSpan.show();
+                    e.preventDefault(); // Prevent form submission
+                }
+            });
+        });
+    </script>
+}
