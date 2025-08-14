@@ -1,0 +1,284 @@
+﻿@model Practica3View.Models.AbonoViewModel
+@{
+    ViewData["Title"] = "Registro de Abono";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="fas fa-money-bill-wave me-2"></i>Registro de Pago Parcial
+                    </h4>
+                    <small>Ingrese un abono para reducir el saldo pendiente de una compra</small>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>@ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Registro" method="post" id="abonoForm">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="Id_Compra" class="form-label">
+                                        <i class="fas fa-shopping-cart me-1"></i>Compra <span class="text-danger">*</span>
+                                    </label>
+                                    <select asp-for="Id_Compra" class="form-select" id="compraSelect" required>
+                                        <option value="">Seleccione una compra...</option>
+                                        @if (Model?.ComprasPendientes != null)
+                                        {
+                                            @foreach (var compra in Model.ComprasPendientes)
+                                            {
+                                                <option value="@compra.Id_Compra" data-saldo="@compra.Saldo">
+                                                    ID: @compra.Id_Compra - @compra.Descripcion (Saldo: ₡@compra.Saldo.ToString("N2"))
+                                                </option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="Id_Compra" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="SaldoAnterior" class="form-label">
+                                        <i class="fas fa-wallet me-1"></i>Saldo Anterior
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₡</span>
+                                        <input asp-for="SaldoAnterior" class="form-control" id="saldoAnterior" readonly style="background-color: #f8f9fa;" />
+                                    </div>
+                                    <span asp-validation-for="SaldoAnterior" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="Abono" class="form-label">
+                                        <i class="fas fa-hand-holding-usd me-1"></i>Monto a Abonar <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₡</span>
+                                        <input asp-for="Abono" class="form-control" type="number" step="0.01" min="0.01" id="montoAbono" required />
+                                    </div>
+                                    <span asp-validation-for="Abono" class="text-danger"></span>
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>El abono no puede ser mayor al saldo pendiente.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="fas fa-calculator me-1"></i>Saldo Restante
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₡</span>
+                                        <input type="text" class="form-control" id="saldoRestante" readonly style="background-color: #e3f2fd;" />
+                                    </div>
+                                    <div class="form-text">
+                                        <span id="estadoFinal" class="fw-bold"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="row">
+                            <div class="col-12">
+                                <hr>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <a href="@Url.Action("Consulta", "Compras")" class="btn btn-outline-secondary me-md-2">
+                                        <i class="fas fa-times me-1"></i>Cancelar
+                                    </a>
+                                    <button type="submit" class="btn btn-success" id="btnAbonar">
+                                        <i class="fas fa-check me-1"></i>Registrar Abono
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            @if (Model?.ComprasPendientes != null && Model.ComprasPendientes.Any())
+            {
+                <!-- Tabla de compras pendientes para referencia -->
+                <div class="card shadow mt-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list me-2"></i>Compras Pendientes de Pago
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Descripción</th>
+                                        <th>Precio Original</th>
+                                        <th>Saldo Pendiente</th>
+                                        <th>% Pagado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var compra in Model.ComprasPendientes)
+                                    {
+                                        var porcentajePagado = compra.Precio > 0 ? ((compra.Precio - compra.Saldo) / compra.Precio) * 100 : 0;
+                                        <tr>
+                                            <td><strong>@compra.Id_Compra</strong></td>
+                                            <td>@compra.Descripcion</td>
+                                            <td>₡@compra.Precio.ToString("N2")</td>
+                                            <td class="text-danger fw-bold">₡@compra.Saldo.ToString("N2")</td>
+                                            <td>
+                                                <span class="badge bg-warning">@porcentajePagado.ToString("F1")%</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card shadow mt-4">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                        <h4 class="text-success">¡Excelente!</h4>
+                        <p class="text-muted">No hay compras pendientes de pago en este momento.</p>
+                        <a href="@Url.Action("Consulta", "Compras")" class="btn btn-primary">
+                            <i class="fas fa-eye me-1"></i>Ver todas las compras
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Evento cuando cambia la selección de compra
+            $('#compraSelect').on('change', function() {
+                var selectedOption = $(this).find('option:selected');
+                var saldo = selectedOption.data('saldo');
+
+                if (saldo !== undefined) {
+                    $('#saldoAnterior').val(saldo.toFixed(2));
+                    $('#SaldoAnterior').val(saldo); // Campo oculto para el modelo
+                    calcularSaldoRestante();
+                } else {
+                    $('#saldoAnterior').val('');
+                    $('#SaldoAnterior').val(0);
+                    $('#saldoRestante').val('');
+                    $('#estadoFinal').text('');
+                }
+
+                // Limpiar el campo de abono
+                $('#montoAbono').val('');
+            });
+
+            // Evento cuando cambia el monto del abono
+            $('#montoAbono').on('input', function() {
+                calcularSaldoRestante();
+            });
+
+            function calcularSaldoRestante() {
+                var saldoAnterior = parseFloat($('#SaldoAnterior').val()) || 0;
+                var abono = parseFloat($('#montoAbono').val()) || 0;
+
+                if (saldoAnterior > 0 && abono >= 0) {
+                    var saldoRestante = saldoAnterior - abono;
+                    $('#saldoRestante').val(saldoRestante.toFixed(2));
+
+                    // Actualizar estado final
+                    if (saldoRestante <= 0) {
+                        $('#estadoFinal').text('Estado: CANCELADO').removeClass('text-warning').addClass('text-success');
+                    } else {
+                        $('#estadoFinal').text('Estado: PENDIENTE').removeClass('text-success').addClass('text-warning');
+                    }
+
+                    // Validación en tiempo real
+                    if (abono > saldoAnterior) {
+                        $('#montoAbono').addClass('is-invalid');
+                        $('#btnAbonar').prop('disabled', true);
+                    } else {
+                        $('#montoAbono').removeClass('is-invalid');
+                        $('#btnAbonar').prop('disabled', false);
+                    }
+                } else {
+                    $('#saldoRestante').val('');
+                    $('#estadoFinal').text('');
+                    $('#montoAbono').removeClass('is-invalid');
+                    $('#btnAbonar').prop('disabled', false);
+                }
+            }
+
+            // Validación del formulario antes del envío
+            $('#abonoForm').on('submit', function(e) {
+                var saldoAnterior = parseFloat($('#SaldoAnterior').val()) || 0;
+                var abono = parseFloat($('#montoAbono').val()) || 0;
+
+                if (abono > saldoAnterior) {
+                    e.preventDefault();
+                    alert('El abono no puede ser mayor al saldo anterior.');
+                    return false;
+                }
+
+                if (abono <= 0) {
+                    e.preventDefault();
+                    alert('El abono debe ser mayor a cero.');
+                    return false;
+                }
+
+                // Confirmar el abono
+                var compraTexto = $('#compraSelect option:selected').text();
+                var mensaje = `¿Está seguro que desea registrar un abono de ₡${abono.toFixed(2)} para la compra: ${compraTexto}?`;
+
+                return confirm(mensaje);
+            });
+        });
+    </script>
+}
+
+<style>
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    .form-select:focus, .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .btn {
+        border-radius: 6px;
+    }
+
+    .table th {
+        border-top: none;
+    }
+</style>

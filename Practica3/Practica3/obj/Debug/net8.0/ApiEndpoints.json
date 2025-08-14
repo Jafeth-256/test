@@ -1,0 +1,54 @@
+[
+  {
+    "ContainingType": "Practica3.Controllers.ComprasController",
+    "Method": "ConsultarCompras",
+    "RelativePath": "api/Compras/ConsultarCompras",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Practica3.Controllers.ComprasController",
+    "Method": "ConsultarComprasPendientes",
+    "RelativePath": "api/Compras/ConsultarComprasPendientes",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Practica3.Controllers.ComprasController",
+    "Method": "ObtenerSaldoCompra",
+    "RelativePath": "api/Compras/ObtenerSaldoCompra",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idCompra",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Practica3.Controllers.ComprasController",
+    "Method": "RegistrarAbono",
+    "RelativePath": "api/Compras/RegistrarAbono",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "abono",
+        "Type": "Practica3.Models.Abonos",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

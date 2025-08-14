@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Panel principal -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 shadow border-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div class="card-body text-white d-flex flex-column justify-content-center">
+                            <div class="text-center">
+                                <i class="fas fa-search fa-3x mb-3"></i>
+                                <h4>Consultar Compras</h4>
+                                <p class="mb-4">Visualice todas las compras registradas en el sistema, ordenadas por estado para facilitar su gestión.</p>
+                                <a href="@Url.Action("Consulta", "Compras")" class="btn btn-light btn-lg">
+                                    <i class="fas fa-eye me-2"></i>Ver Compras
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100 shadow border-0" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <div class="card-body text-white d-flex flex-column justify-content-center">
+                            <div class="text-center">
+                                <i class="fas fa-plus-circle fa-3x mb-3"></i>
+                                <h4>Registrar Abono</h4>
+                                <p class="mb-4">Realice pagos parciales para reducir el saldo pendiente de sus compras de forma rápida y segura.</p>
+                                <a href="@Url.Action("Registro", "Compras")" class="btn btn-light btn-lg">
+                                    <i class="fas fa-money-bill-wave me-2"></i>Nuevo Abono
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información adicional -->
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow border-0">
+                        <div class="card-body text-center">
+                            <i class="fas fa-shield-alt fa-2x text-success mb-3"></i>
+                            <h5>Seguro y Confiable</h5>
+                            <p class="text-muted">Sus transacciones están protegidas con los más altos estándares de seguridad.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow border-0">
+                        <div class="card-body text-center">
+                            <i class="fas fa-clock fa-2x text-primary mb-3"></i>
+                            <h5>Disponible 24/7</h5>
+                            <p class="text-muted">Acceda a su información y realice abonos en cualquier momento del día.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow border-0">
+                        <div class="card-body text-center">
+                            <i class="fas fa-chart-line fa-2x text-warning mb-3"></i>
+                            <h5>Control Total</h5>
+                            <p class="text-muted">Mantenga un seguimiento detallado de todos sus pagos y saldos pendientes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instrucciones rápidas -->
+            <div class="card shadow mt-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-question-circle me-2"></i>¿Cómo usar el sistema?
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-search text-info me-2"></i>Para Consultar:</h6>
+                            <ol class="small">
+                                <li>Haga clic en "Consulta" en el menú superior</li>
+                                <li>Visualice todas las compras ordenadas por estado</li>
+                                <li>Las compras pendientes aparecen primero</li>
+                                <li>Vea el progreso de pago de cada compra</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-plus text-success me-2"></i>Para Registrar Abonos:</h6>
+                            <ol class="small">
+                                <li>Seleccione "Registro" en el menú superior</li>
+                                <li>Elija la compra desde el dropdown</li>
+                                <li>El saldo se carga automáticamente</li>
+                                <li>Ingrese el monto a abonar</li>
+                                <li>Confirme el registro del abono</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 15px;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        }
+
+    .btn {
+        border-radius: 25px;
+        padding: 10px 30px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+    .fas {
+        opacity: 0.9;
+    }
+</style>
