@@ -3,38 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|c:\\users\\jafet\\universidad\\programacion avanzada web\\practica3\\practica3\\practica3\\services\\utilitarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|solutionrelative:practica3\\services\\utilitarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|c:\\users\\jafet\\universidad\\programacion avanzada web\\practica3\\practica3\\practica3\\services\\iutilitarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|solutionrelative:practica3\\services\\iutilitarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|c:\\users\\jafet\\universidad\\programacion avanzada web\\practica3\\practica3\\practica3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|solutionrelative:practica3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|c:\\users\\jafet\\universidad\\programacion avanzada web\\practica3\\practica3\\practica3\\controllers\\errorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|solutionrelative:practica3\\controllers\\errorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|c:\\users\\jafet\\universidad\\programacion avanzada web\\practica3\\practica3\\practica3\\models\\respuestaestandar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|solutionrelative:practica3\\models\\respuestaestandar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|c:\\users\\jafet\\universidad\\programacion avanzada web\\practica3\\practica3\\practica3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|solutionrelative:practica3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|c:\\users\\jafet\\universidad\\programacion avanzada web\\practica3\\practica3\\practica3\\controllers\\comprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|solutionrelative:practica3\\controllers\\comprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|c:\\users\\jafet\\universidad\\programacion avanzada web\\practica3\\practica3\\practica3\\models\\abonos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|solutionrelative:practica3\\models\\abonos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|c:\\users\\jafet\\universidad\\programacion avanzada web\\practica3\\practica3\\practica3\\models\\principal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6CFE763A-E0A0-414F-B627-364C66400E74}|Practica3\\Practica3.csproj|solutionrelative:practica3\\models\\principal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -46,119 +14,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "IUtilitarios.cs",
-              "DocumentMoniker": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Services\\IUtilitarios.cs",
-              "RelativeDocumentMoniker": "Practica3\\Services\\IUtilitarios.cs",
-              "ToolTip": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Services\\IUtilitarios.cs",
-              "RelativeToolTip": "Practica3\\Services\\IUtilitarios.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T21:35:54.862Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "RespuestaEstandar.cs",
-              "DocumentMoniker": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Models\\RespuestaEstandar.cs",
-              "RelativeDocumentMoniker": "Practica3\\Models\\RespuestaEstandar.cs",
-              "ToolTip": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Models\\RespuestaEstandar.cs",
-              "RelativeToolTip": "Practica3\\Models\\RespuestaEstandar.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T21:48:32.797Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ErrorController.cs",
-              "DocumentMoniker": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Controllers\\ErrorController.cs",
-              "RelativeDocumentMoniker": "Practica3\\Controllers\\ErrorController.cs",
-              "ToolTip": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Controllers\\ErrorController.cs",
-              "RelativeToolTip": "Practica3\\Controllers\\ErrorController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T21:46:37.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Program.cs",
-              "RelativeDocumentMoniker": "Practica3\\Program.cs",
-              "ToolTip": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Program.cs",
-              "RelativeToolTip": "Practica3\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T21:38:28.871Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Utilitarios.cs",
-              "DocumentMoniker": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Services\\Utilitarios.cs",
-              "RelativeDocumentMoniker": "Practica3\\Services\\Utilitarios.cs",
-              "ToolTip": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Services\\Utilitarios.cs",
-              "RelativeToolTip": "Practica3\\Services\\Utilitarios.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T21:36:51.647Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\appsettings.json",
-              "RelativeDocumentMoniker": "Practica3\\appsettings.json",
-              "ToolTip": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\appsettings.json",
-              "RelativeToolTip": "Practica3\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-08-14T21:25:04.752Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ComprasController.cs",
-              "DocumentMoniker": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Controllers\\ComprasController.cs",
-              "RelativeDocumentMoniker": "Practica3\\Controllers\\ComprasController.cs",
-              "ToolTip": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Controllers\\ComprasController.cs",
-              "RelativeToolTip": "Practica3\\Controllers\\ComprasController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFQAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T21:23:24.203Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Abonos.cs",
-              "DocumentMoniker": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Models\\Abonos.cs",
-              "RelativeDocumentMoniker": "Practica3\\Models\\Abonos.cs",
-              "ToolTip": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Models\\Abonos.cs",
-              "RelativeToolTip": "Practica3\\Models\\Abonos.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-14T21:22:36.793Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
               "Title": "Principal.cs",
               "DocumentMoniker": "C:\\Users\\jafet\\Universidad\\Programacion Avanzada Web\\Practica3\\Practica3\\Practica3\\Models\\Principal.cs",
               "RelativeDocumentMoniker": "Practica3\\Models\\Principal.cs",

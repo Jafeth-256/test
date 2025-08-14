@@ -1,172 +1,57 @@
 ﻿@model List<Practica3View.Models.Principal>
 @{
-    ViewData["Title"] = "Consulta de Compras";
+    ViewData["Title"] = "Consulta";
 }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-info text-white">
-                    <h4 class="card-title mb-0">
-                        <i class="fas fa-list me-2"></i>Consulta de Compras
-                    </h4>
-                    <small>Visualización de todas las compras ordenadas por estado</small>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Consulta</h4>
                 </div>
                 <div class="card-body">
                     @if (ViewBag.Error != null)
                     {
-                        <div class="alert alert-danger">
-                            <i class="fas fa-exclamation-triangle me-2"></i>@ViewBag.Error
+                        <div class="alert alert-danger text-center">
+                            @ViewBag.Error
                         </div>
                     }
 
                     @if (Model != null && Model.Any())
                     {
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th scope="col">
-                                            <i class="fas fa-hashtag me-1"></i>ID Compra
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-align-left me-1"></i>Descripción
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-dollar-sign me-1"></i>Precio Original
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-wallet me-1"></i>Saldo Pendiente
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-flag me-1"></i>Estado
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-percentage me-1"></i>% Pagado
-                                        </th>
+                            <table class="table table-bordered">
+                                <thead class="table-primary">
+                                    <tr class="text-center">
+                                        <th>Código Compra</th>
+                                        <th>Descripción</th>
+                                        <th>Precio</th>
+                                        <th>Saldo</th>
+                                        <th>Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var compra in Model)
                                     {
-                                        var porcentajePagado = compra.Precio > 0 ? ((compra.Precio - compra.Saldo) / compra.Precio) * 100 : 0;
-                                        var estadoClass = compra.Estado == "Pendiente" ? "badge bg-warning" : "badge bg-success";
-                                        var rowClass = compra.Estado == "Pendiente" ? "table-warning" : "table-success";
-                                        
-                                        <tr class="@rowClass">
-                                            <td>
-                                                <strong>@compra.Id_Compra</strong>
-                                            </td>
+                                        <tr class="text-center">
+                                            <td>@compra.Id_Compra</td>
                                             <td>@compra.Descripcion</td>
-                                            <td>
-                                                <span class="text-primary fw-bold">
-                                                    ₡@compra.Precio.ToString("N2")
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="@(compra.Saldo > 0 ? "text-danger" : "text-success") fw-bold">
-                                                    ₡@compra.Saldo.ToString("N2")
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="@estadoClass">
-                                                    @if (compra.Estado == "Pendiente")
-                                                    {
-                                                        <i class="fas fa-clock me-1"></i>
-                                                    }
-                                                    else
-                                                    {
-                                                        <i class="fas fa-check me-1"></i>
-                                                    }
-                                                    @compra.Estado
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div class="progress" style="height: 20px;">
-                                                    <div class="progress-bar @(porcentajePagado == 100 ? "bg-success" : "bg-info")" 
-                                                         role="progressbar" 
-                                                         style="width: @porcentajePagado.ToString("F1")%">
-                                                        @porcentajePagado.ToString("F1")%
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            <td>₡@compra.Precio.ToString("N2")</td>
+                                            <td>₡@compra.Saldo.ToString("N2")</td>
+                                            <td>@compra.Estado</td>
                                         </tr>
                                     }
                                 </tbody>
                             </table>
                         </div>
-
-                        <!-- Resumen de estadísticas -->
-                        <div class="row mt-4">
-                            <div class="col-md-4">
-                                <div class="card bg-primary text-white">
-                                    <div class="card-body text-center">
-                                        <h5><i class="fas fa-shopping-cart me-2"></i>Total Compras</h5>
-                                        <h3>@Model.Count</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card bg-warning text-white">
-                                    <div class="card-body text-center">
-                                        <h5><i class="fas fa-clock me-2"></i>Pendientes</h5>
-                                        <h3>@Model.Count(x => x.Estado == "Pendiente")</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card bg-success text-white">
-                                    <div class="card-body text-center">
-                                        <h5><i class="fas fa-check-circle me-2"></i>Canceladas</h5>
-                                        <h3>@Model.Count(x => x.Estado == "Cancelado")</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Resumen financiero -->
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <div class="card bg-info text-white">
-                                    <div class="card-body text-center">
-                                        <h5><i class="fas fa-coins me-2"></i>Total Facturado</h5>
-                                        <h3>₡@Model.Sum(x => x.Precio).ToString("N2")</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card bg-danger text-white">
-                                    <div class="card-body text-center">
-                                        <h5><i class="fas fa-exclamation-circle me-2"></i>Saldo Pendiente Total</h5>
-                                        <h3>₡@Model.Sum(x => x.Saldo).ToString("N2")</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     }
                     else
                     {
-                        <div class="text-center py-5">
-                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                            <h4 class="text-muted">No hay compras registradas</h4>
-                            <p class="text-muted">No se encontraron compras en el sistema.</p>
+                        <div class="text-center py-4">
+                            <p class="text-muted">No hay compras registradas</p>
                         </div>
                     }
-                </div>
-                <div class="card-footer bg-light">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <a href="@Url.Action("Registro", "Compras")" class="btn btn-success">
-                                <i class="fas fa-plus me-2"></i>Registrar Abono
-                            </a>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <button onclick="location.reload()" class="btn btn-outline-primary">
-                                <i class="fas fa-refresh me-2"></i>Actualizar
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

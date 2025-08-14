@@ -1,9 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "API Sistema de Compras",
-    "description": "API para la gestión de compras y abonos",
-    "version": "v1"
+    "title": "Practica3",
+    "version": "1.0"
   },
   "paths": {
     "/api/Compras/ConsultarCompras": {

@@ -23,14 +23,21 @@ namespace Practica3.Controllers
         [Route("ConsultarCompras")]
         public IActionResult ConsultarCompras()
         {
-            using (var context = new SqlConnection(_configuration.GetSection("ConnectionStrings:Connection").Value))
+            try
             {
-                var resultado = context.Query<Principal>("ConsultarCompras");
+                using (var context = new SqlConnection(_configuration.GetConnectionString("Connection")))
+                {
+                    var resultado = context.Query<Principal>("ConsultarCompras", commandType: System.Data.CommandType.StoredProcedure);
 
-                if (resultado != null && resultado.Any())
-                    return Ok(_utilitarios.RespuestaCorrecta(resultado));
-                else
-                    return BadRequest(_utilitarios.RespuestaIncorrecta("No hay información registrada"));
+                    if (resultado != null && resultado.Any())
+                        return Ok(_utilitarios.RespuestaCorrecta(resultado));
+                    else
+                        return Ok(_utilitarios.RespuestaIncorrecta("No hay información registrada"));
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _utilitarios.RespuestaIncorrecta($"Error interno: {ex.Message}"));
             }
         }
 
@@ -38,14 +45,21 @@ namespace Practica3.Controllers
         [Route("ConsultarComprasPendientes")]
         public IActionResult ConsultarComprasPendientes()
         {
-            using (var context = new SqlConnection(_configuration.GetSection("ConnectionStrings:Connection").Value))
+            try
             {
-                var resultado = context.Query<Principal>("ConsultarComprasPendientes");
+                using (var context = new SqlConnection(_configuration.GetConnectionString("Connection")))
+                {
+                    var resultado = context.Query<Principal>("ConsultarComprasPendientes", commandType: System.Data.CommandType.StoredProcedure);
 
-                if (resultado != null && resultado.Any())
-                    return Ok(_utilitarios.RespuestaCorrecta(resultado));
-                else
-                    return BadRequest(_utilitarios.RespuestaIncorrecta("No hay compras pendientes"));
+                    if (resultado != null && resultado.Any())
+                        return Ok(_utilitarios.RespuestaCorrecta(resultado));
+                    else
+                        return Ok(_utilitarios.RespuestaIncorrecta("No hay compras pendientes"));
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _utilitarios.RespuestaIncorrecta($"Error interno: {ex.Message}"));
             }
         }
 
@@ -53,32 +67,57 @@ namespace Practica3.Controllers
         [Route("ObtenerSaldoCompra")]
         public IActionResult ObtenerSaldoCompra(long idCompra)
         {
-            using (var context = new SqlConnection(_configuration.GetSection("ConnectionStrings:Connection").Value))
+            try
             {
-                var resultado = context.QueryFirstOrDefault<decimal>("ObtenerSaldoCompra",
-                    new { Id_Compra = idCompra });
+                using (var context = new SqlConnection(_configuration.GetConnectionString("Connection")))
+                {
+                    var resultado = context.QueryFirstOrDefault<decimal?>("ObtenerSaldoCompra",
+                        new { Id_Compra = idCompra },
+                        commandType: System.Data.CommandType.StoredProcedure);
 
-                return Ok(_utilitarios.RespuestaCorrecta(resultado));
+                    return Ok(_utilitarios.RespuestaCorrecta(resultado ?? 0));
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _utilitarios.RespuestaIncorrecta($"Error interno: {ex.Message}"));
             }
         }
 
         [HttpPost]
         [Route("RegistrarAbono")]
-        public IActionResult RegistrarAbono(Abonos abono)
+        public IActionResult RegistrarAbono([FromBody] Abonos abono)
         {
-            using (var context = new SqlConnection(_configuration.GetSection("ConnectionStrings:Connection").Value))
+            try
             {
-                var resultado = context.Execute("RegistrarAbono",
-                    new
-                    {
-                        abono.Id_Compra,
-                        abono.Monto
-                    });
+                if (abono == null || abono.Id_Compra <= 0 || abono.Monto <= 0)
+                {
+                    return BadRequest(_utilitarios.RespuestaIncorrecta("Datos inválidos"));
+                }
 
-                if (resultado > 0)
-                    return Ok(_utilitarios.RespuestaCorrecta(null));
-                else
-                    return BadRequest(_utilitarios.RespuestaIncorrecta("El abono no fue registrado"));
+                using (var context = new SqlConnection(_configuration.GetConnectionString("Connection")))
+                {
+                    var resultado = context.Execute("RegistrarAbono",
+                        new
+                        {
+                            Id_Compra = abono.Id_Compra,
+                            Monto = abono.Monto
+                        },
+                        commandType: System.Data.CommandType.StoredProcedure);
+
+                    if (resultado > 0)
+                        return Ok(_utilitarios.RespuestaCorrecta("Abono registrado correctamente"));
+                    else
+                        return BadRequest(_utilitarios.RespuestaIncorrecta("El abono no fue registrado"));
+                }
+            }
+            catch (SqlException ex)
+            {
+                return BadRequest(_utilitarios.RespuestaIncorrecta(ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, _utilitarios.RespuestaIncorrecta($"Error interno: {ex.Message}"));
             }
         }
     }
